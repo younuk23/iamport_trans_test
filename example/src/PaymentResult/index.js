@@ -1,27 +1,43 @@
-import React from 'react';
-import { View } from 'react-native';
-import { List, ListItem, Icon, Button, Text } from 'native-base';
+import React from "react";
+import { View } from "react-native";
+import { List, ListItem, Icon, Button, Text } from "native-base";
 
-import { resultStyles, resultSuccessStyles, resultFailureStyles } from '../styles';
+import {
+  resultStyles,
+  resultSuccessStyles,
+  resultFailureStyles,
+} from "../styles";
 
 export default function PaymentResult({ navigation }) {
-  const response = navigation.getParam('response');
+  const response = navigation.getParam("response");
   const { imp_success, success, imp_uid, merchant_uid, error_msg } = response;
   const { wrapper, title, listContainer, list, label, value } = resultStyles;
 
   // [WARNING: 이해를 돕기 위한 것일 뿐, imp_success 또는 success 파라미터로 결제 성공 여부를 장담할 수 없습니다.]
   // 아임포트 서버로 결제내역 조회(GET /payments/${imp_uid})를 통해 그 응답(status)에 따라 결제 성공 여부를 판단하세요.
-  const isSuccess = !(imp_success === 'false' || imp_success === false || success === 'false' || success === false);
-  const { icon, btn, btnText, btnIcon } = isSuccess ? resultSuccessStyles : resultFailureStyles;
+  const isSuccess = !(
+    imp_success === "false" ||
+    imp_success === false ||
+    success === "false" ||
+    success === false
+  );
+
+  const { icon, btn, btnText, btnIcon } = isSuccess
+    ? resultSuccessStyles
+    : resultFailureStyles;
+
+  alert(JSON.stringify(response));
 
   return (
     <View style={wrapper}>
       <Icon
         style={icon}
         type="AntDesign"
-        name={isSuccess ? 'checkcircle' : 'exclamationcircle'}
+        name={isSuccess ? "checkcircle" : "exclamationcircle"}
       />
-      <Text style={title}>{`결제에 ${isSuccess ? '성공' : '실패'}하였습니다`}</Text>
+      <Text style={title}>{`결제에 ${
+        isSuccess ? "성공" : "실패"
+      }하였습니다`}</Text>
       <List style={listContainer}>
         <ListItem style={list}>
           <Text style={label}>아임포트 번호</Text>
@@ -43,7 +59,7 @@ export default function PaymentResult({ navigation }) {
         bordered
         transparent
         style={btn}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate("Home")}
       >
         <Icon name="arrow-back" style={btnIcon} />
         <Text style={btnText}>돌아가기</Text>
